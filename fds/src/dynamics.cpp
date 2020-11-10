@@ -44,6 +44,11 @@ void DynamicsClass::update() {
     uavPtr->state[es_e2] /= norm_quaternion;
     uavPtr->state[es_e3] /= norm_quaternion;
 
+    if (below_groundplane()) {
+        std::cout << "UAV below groundplane, exiting..." << std::endl;
+        std::exit(EXIT_SUCCESS);
+    }
+
 }
 
 Eigen::Matrix<double, 13, 1> DynamicsClass::calc_derivatives(Eigen::Matrix<double, 13, 1> in_state) {
@@ -165,5 +170,11 @@ void DynamicsClass::calc_forces_moments() {
     );
 
     forces_moments = {fx, fy, fz, Mx, My, Mz};
+
+}
+
+bool DynamicsClass::below_groundplane() {
+
+    return uavPtr->state[es_pz] > 0.0;
 
 }
