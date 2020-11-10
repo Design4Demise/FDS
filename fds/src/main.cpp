@@ -1,8 +1,14 @@
-#include <iostream>
+#include "../include/uav.h"
+#include "../include/dynamics.h"
 
 int main() {
 
-	std::cout << "Flight Dynamics Simulation" << std::endl;
+    std::cout << "Flight Dynamics Simulation" << std::endl;
 
-	return 0;
+    UAVClass uav;
+    DynamicsClass dyn(uav);
+
+    std::cout << "DONE" << std::endl;
+
+    return 0;
 }
