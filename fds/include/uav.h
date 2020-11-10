@@ -54,6 +54,8 @@ private:
 public:
 
     void read_parameters();
+    void read_state();
+
     void write_state();
     void write_dstate();
 
