@@ -91,9 +91,19 @@ Eigen::Matrix3d utils::Euler2Rotation(double phi, double theta, double psi) {
     return R;
 }
 
+void utils::create_directories() {
 
+    // remove directories
+    if (boost::filesystem::exists("Results")) {
+        if (!boost::filesystem::remove_all("Results")) {
+            std::cout << "Problem removing results directory...exiting" << std::endl;
+            std::exit(EXIT_FAILURE);
+        }
+    }
 
-
-
-
-
+    // create results directory
+    if (!boost::filesystem::create_directory("Results")) {
+        std::cout << "Problem creating Results directory..." << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
+}

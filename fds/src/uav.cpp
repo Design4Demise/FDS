@@ -1,6 +1,9 @@
 #include "../include/uav.h"
+#include "../include/utils.h"
 
 UAVClass::UAVClass() {
+
+    utils::create_directories();
 
     read_parameters();
     calculate_gamma();
