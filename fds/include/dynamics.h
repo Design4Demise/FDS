@@ -44,6 +44,8 @@ private:
     Eigen::Matrix<double, 13, 1> calc_derivatives(Eigen::Matrix<double, 13, 1> in_state);
     void calc_forces_moments();
 
+    bool below_groundplane();
+
 };
 
 #endif
