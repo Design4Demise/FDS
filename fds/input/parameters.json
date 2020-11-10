@@ -1,0 +1,43 @@
+{
+  "physical_parameters": {
+    "mass": 11,
+    "Jx": 0.8244,
+    "Jy": 1.135,
+    "Jz": 1.759,
+    "Jxz": 0.1204,
+    "S_wing": 0.55,
+    "b": 2.8956,
+    "c": 0.18994,
+    "e": 0.9
+  },
+  "longitudinal_parameters": {
+    "C_L_0": 0.23,
+    "C_D_0": 0.043,
+    "C_M_0": 0.0135,
+    "C_L_alpha": 5.61,
+    "C_D_alpha": 0.03,
+    "C_M_alpha": -2.74,
+    "C_L_q": 7.95,
+    "C_D_q": 0.0,
+    "C_M_q": -38.21
+  },
+  "lateral_parameters": {
+    "C_Y_0": 0.0,
+    "C_ELL_0": 0.0,
+    "C_N_0": 0.0,
+    "C_Y_beta": -0.98,
+    "C_ELL_beta": -0.13,
+    "C_N_beta": 0.073,
+    "C_Y_p": 0.0,
+    "C_ELL_p": -0.51,
+    "C_N_p": 0.069,
+    "C_Y_r": 0.0,
+    "C_ELL_r": 0.25,
+    "C_N_r": -0.095
+  },
+  "blending_parameters": {
+    "M": 50.0,
+    "alpha0": 0.47
+  }
+}
+  
