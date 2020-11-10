@@ -6,6 +6,8 @@ UAVClass::UAVClass() {
     utils::create_directories();
 
     read_parameters();
+    read_state();
+    
     calculate_gamma();
 
 }
@@ -66,6 +68,35 @@ void UAVClass::read_parameters() {
     C_Y_r = json_file["lateral_parameters"]["C_Y_r"];
     C_ELL_r = json_file["lateral_parameters"]["C_ELL_r"];
     C_N_r = json_file["lateral_parameters"]["C_N_r"];
+
+}
+
+void UAVClass::read_state() {
+
+    // read file
+    std::ifstream ifs ("input/state.json");
+    nlohmann::json json_file;
+    
+    ifs >> json_file;
+    ifs.close();
+
+    state[es_px] = json_file["px0"];
+    state[es_py] = json_file["py0"];
+    state[es_pz] = json_file["pz0"];
+
+    state[es_u] = json_file["u0"];
+    state[es_v] = json_file["v0"];
+    state[es_w] = json_file["w0"];
+
+    std::array<double, 4> quat = utils::Euler2Quaternion(json_file["phi0"], json_file["theta0"], json_file["psi0"]);
+    state[es_e0] = quat[e_e0];
+    state[es_e1] = quat[e_e1];
+    state[es_e2] = quat[e_e2];
+    state[es_e3] = quat[e_e3];
+
+    state[es_p] = json_file["p0"];
+    state[es_q] = json_file["q0"];
+    state[es_r] = json_file["r0"];
 
 }
 

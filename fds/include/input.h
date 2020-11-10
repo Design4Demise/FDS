@@ -16,12 +16,12 @@ const double g0  = 9.81;
 
 // simulation parameters
 const double t_simulation = 30.0;
-const double time_step = 1e-3;
+const double time_step = 1e-1;
 
 const int nSteps = static_cast<int>(t_simulation / time_step);
 
 // logging parameters
-const int logging_interval = nSteps / 1000;
+const int logging_interval = nSteps / 100;
 const int PRECISION = 10;
 
 // enum definitions

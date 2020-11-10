@@ -16,6 +16,9 @@ DynamicsClass::DynamicsClass(UAVClass &uav) {
     curr_time_step = 0;
     v_air = uavPtr->state[es_u];
 
+    alpha = 0;
+    beta = 0;
+
 }
 
 void DynamicsClass::update() {
@@ -23,13 +26,15 @@ void DynamicsClass::update() {
     Eigen::Matrix<double, 13, 1> k1, k2, k3, k4;
     double norm_quaternion;
 
+    calc_forces_moments();
+
     // RK4 integration scheme
     k1 = calc_derivatives(uavPtr->state);
     k2 = calc_derivatives(uavPtr->state + time_step / 2.0 * k1);
     k3 = calc_derivatives(uavPtr->state + time_step / 2.0 * k2);
     k4 = calc_derivatives(uavPtr->state + time_step * k3);
 
-    uavPtr->dstate = 1 / 6 * (k1 + 2 * k2 + 2 * k3 + k4);
+    uavPtr->dstate = (k1 + 2 * k2 + 2 * k3 + k4) / 6.0;
     uavPtr->state += time_step * uavPtr->dstate;
 
     // normalise quaternion
@@ -75,8 +80,8 @@ Eigen::Matrix<double, 13, 1> DynamicsClass::calc_derivatives(Eigen::Matrix<doubl
     Eigen::Vector3d velocity_vector(u, v, w);
     Eigen::Vector3d p_dot = rot * velocity_vector;
     d_vector[es_px] = p_dot[ex];
-    d_vector[es_px] = p_dot[ex];
-    d_vector[es_px] = p_dot[ex];
+    d_vector[es_py] = p_dot[ey];
+    d_vector[es_pz] = p_dot[ez];
 
     // velocity derivatives
     d_vector[es_u] = r * v - q * w + fx / uavPtr->mass;
