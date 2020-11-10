@@ -55,6 +55,7 @@ public:
 
     void read_parameters();
     void write_state();
+    void write_dstate();
 
 private:
 
