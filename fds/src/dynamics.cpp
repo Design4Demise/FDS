@@ -134,7 +134,7 @@ void DynamicsClass::calc_forces_moments() {
 
     // calculating forces
     fx = fx - c_alpha * f_drag + s_alpha * f_lift;
-    fz = fz = s_alpha * f_drag - c_alpha * f_lift;
+    fz = fz - s_alpha * f_drag - c_alpha * f_lift;
 
     fy = fy + qbar * uavPtr->S_wing * (
         uavPtr->C_Y_0
