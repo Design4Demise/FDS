@@ -40,7 +40,59 @@ void DynamicsClass::update() {
 }
 
 Eigen::Matrix<double, 13, 1> DynamicsClass::calc_derivatives(Eigen::Matrix<double, 13, 1> in_state) {
-    //   
+
+    Eigen::Matrix<double, 13, 1> d_vector;
+    
+    // get state variables
+    double u = in_state[es_u];
+    double v = in_state[es_v];
+    double w = in_state[es_w];
+
+    double e0 = in_state[es_e0];
+    double e1 = in_state[es_e1];
+    double e2 = in_state[es_e2];
+    double e3 = in_state[es_e3];
+
+    double p = in_state[es_p];
+    double q = in_state[es_q];
+    double r = in_state[es_r];
+
+    // extract forces / moments
+    double fx = forces_moments[efm_fx];
+    double fy = forces_moments[efm_fy];
+    double fz = forces_moments[efm_fz];
+    double L = forces_moments[efm_L];
+    double M = forces_moments[efm_M];
+    double N = forces_moments[efm_N];
+
+    // rotation matrix
+    std::array<double, 4> quat = {e0, e1, e2, e3};
+    Eigen::Matrix3d rot = utils::Quaternion2Rotation(quat);
+
+    // position_derivatives
+    Eigen::Vector3d velocity_vector(u, v, w);
+    Eigen::Vector3d p_dot = rot * velocity_vector;
+    d_vector[es_px] = p_dot[ex];
+    d_vector[es_px] = p_dot[ex];
+    d_vector[es_px] = p_dot[ex];
+
+    // velocity derivatives
+    d_vector[es_u] = r * v - q * w + fx / uavPtr->mass;
+    d_vector[es_v] = p * w - r * u + fy / uavPtr->mass;
+    d_vector[es_w] = q * u - p * v + fz / uavPtr->mass;
+
+    // rotational kinematics
+    d_vector[es_e0] = 0.5 * (-p * e1 - q * e2 - r * e3);
+    d_vector[es_e1] = 0.5 * (p * e0 + r * e2 - q * e3);
+    d_vector[es_e2] = 0.5 * (q * e0 - r * e1 + p * e3);
+    d_vector[es_e3] = 0.5 * (r * e0 + q * e1 - p * e2);
+
+    // rotational dynamics
+    d_vector[es_p] = (uavPtr->gamma1 * p * q - uavPtr->gamma2 * q * r + uavPtr->gamma3 * L + uavPtr->gamma4 * N);
+    d_vector[es_q] = (uavPtr->gamma5 * p * r - uavPtr->gamma6 * (SQ(p) - SQ(r)) + M / uavPtr->Jy);
+    d_vector[es_r] = (uavPtr->gamma7 * p * q - uavPtr->gamma1 * q * r + uavPtr->gamma4 * L + uavPtr->gamma8 * N);
+
+    return d_vector;
 }
 
 void DynamicsClass::calc_forces_moments() {
