@@ -28,7 +28,9 @@ void DynamicsClass::update() {
     k2 = calc_derivatives(uavPtr->state + time_step / 2.0 * k1);
     k3 = calc_derivatives(uavPtr->state + time_step / 2.0 * k2);
     k4 = calc_derivatives(uavPtr->state + time_step * k3);
-    uavPtr->state += time_step / 6 * (k1 + 2 * k2 + 2 * k3 + k4);
+
+    uavPtr->dstate = 1 / 6 * (k1 + 2 * k2 + 2 * k3 + k4);
+    uavPtr->state += time_step * uavPtr->dstate;
 
     // normalise quaternion
     norm_quaternion = std::sqrt(SQ(uavPtr->state[es_e0]) + SQ(uavPtr->state[es_e1]) + SQ(uavPtr->state[es_e2])+ SQ(uavPtr->state[es_e3]));
