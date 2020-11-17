@@ -1,6 +1,7 @@
 #include "../include/dynamics.h"
 #include "../include/utils.h"
 
+
 DynamicsClass::DynamicsClass() {
 
     std::cout << "Please initialise DynamicsClass with UAVClass object." << std::endl;
@@ -13,6 +14,8 @@ DynamicsClass::DynamicsClass(UAVClass &uav) {
     uavPtr = &uav;
     uavPtr->dynamicsPtr = this;
 
+    WindyClass *windPtr;
+
     curr_time_step = 0;
     v_air = uavPtr->state[es_u];
 
@@ -20,6 +23,24 @@ DynamicsClass::DynamicsClass(UAVClass &uav) {
     beta = 0;
 
 }
+
+DynamicsClass::DynamicsClass(UAVClass &uav, WindyClass &wind) {
+
+    uavPtr = &uav;
+    uavPtr->dynamicsPtr = this;
+
+    windPtr = &wind;
+    
+    
+    curr_time_step = 0;
+    v_air = uavPtr->state[es_u];
+
+    alpha = 0;
+    beta = 0;
+
+}
+
+
 
 void DynamicsClass::update() {
     
@@ -54,6 +75,8 @@ void DynamicsClass::update() {
 Eigen::Matrix<double, 13, 1> DynamicsClass::calc_derivatives(Eigen::Matrix<double, 13, 1> in_state) {
 
     Eigen::Matrix<double, 13, 1> d_vector;
+
+
     
     // get state variables
     double u = in_state[es_u];
