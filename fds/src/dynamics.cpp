@@ -13,6 +13,8 @@ DynamicsClass::DynamicsClass(UAVClass &uav) {
     uavPtr = &uav;
     uavPtr->dynamicsPtr = this;
 
+    WindClass *windPtr;
+
     curr_time_step = 0;
     v_air = uavPtr->state[es_u];
 
@@ -20,6 +22,22 @@ DynamicsClass::DynamicsClass(UAVClass &uav) {
     beta = 0;
 
 }
+
+DynamicsClass::DynamicsClass(UAVClass &uav, WindClass &wind) {
+
+    uavPtr = &uav;
+    uavPtr->dynamicsPtr = this;
+
+    windPtr = &wind;
+    
+    curr_time_step = 0;
+    v_air = uavPtr->state[es_u];
+
+    alpha = 0;
+    beta = 0;
+
+}
+
 
 void DynamicsClass::update() {
     
@@ -48,6 +66,8 @@ void DynamicsClass::update() {
         std::cout << "UAV below groundplane, exiting..." << std::endl;
         std::exit(EXIT_SUCCESS);
     }
+
+    update_velocity();
 
 }
 
@@ -105,6 +125,37 @@ Eigen::Matrix<double, 13, 1> DynamicsClass::calc_derivatives(Eigen::Matrix<doubl
     d_vector[es_r] = (uavPtr->gamma7 * p * q - uavPtr->gamma1 * q * r + uavPtr->gamma4 * L + uavPtr->gamma8 * N);
 
     return d_vector;
+
+}
+
+void DynamicsClass::update_velocity() {
+
+    // rotation matrix
+    std::array<double, 4> quat = {uavPtr->state[es_e0], uavPtr->state[es_e1], uavPtr->state[es_e2], uavPtr->state[es_e3]};
+    Eigen::Matrix3d rot = utils::Quaternion2Rotation(quat);
+
+    // rotate wind frame to body frame :: rot2bf(steady_state) + gust
+    Eigen::Vector3d wind_bframe = rot.transpose() * windPtr->windState(Eigen::seq(ew_u, ew_w)) + windPtr->windState(Eigen::seq(ew_gust_u, ew_gust_w));
+    
+    // accounting for wind in velocity
+    Eigen::Vector3d v_adjusted(uavPtr->state(Eigen::seq(es_u, es_w)) - wind_bframe);
+
+    // calculate magnitude of air velocity
+    v_air = std::sqrt(SQ(v_adjusted[ew_u]) + SQ(v_adjusted[ew_u]) + SQ(v_adjusted[ew_v]) + SQ(v_adjusted[ew_w]));
+    
+    // calculates alpha and beta
+    if (v_adjusted[ew_u] == 0.0) 
+        alpha = std::sin(v_adjusted[ew_w]) * M_PI / 2;
+    else
+        alpha = std::atan(v_adjusted[ew_w] / v_adjusted[ew_u]);
+
+    // magnitude in horizontal plane
+    double tmp = std::sqrt(SQ(v_adjusted[ew_u]) + SQ(v_adjusted[ew_w]));
+    if (tmp == 0.0)
+        beta = std::sin(v_adjusted[ew_v]) * M_PI / 2;
+    else
+        alpha = std::atan(v_adjusted[ew_v] / tmp);
+
 }
 
 void DynamicsClass::calc_forces_moments() {

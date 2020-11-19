@@ -38,6 +38,14 @@
   "blending_parameters": {
     "M": 50.0,
     "alpha0": 0.47
+  },
+  "wind_parameters": {
+    "u": 0.0,
+    "v": 0.0,
+    "w": 0.0,
+    "gust_u": 0.0,
+    "gust_v": 0.0,
+    "gust_w": 0.0
   }
 }
   

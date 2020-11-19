@@ -1,12 +1,14 @@
 #include "../include/uav.h"
 #include "../include/dynamics.h"
+#include "../include/wind.h"
 
 int main() {
 
     std::cout << "Flight Dynamics Simulation" << std::endl;
 
     UAVClass uav;
-    DynamicsClass dyn(uav);
+    WindClass wind(true);
+    DynamicsClass dyn(uav, wind);
 
     for (dyn.curr_time_step = 0; dyn.curr_time_step < nSteps; dyn.curr_time_step++) {
 
@@ -18,8 +20,9 @@ int main() {
     	}
     
     }
-
+        
     std::cout << "Simulation Complete." << std::endl;
 
     return 0;
+
 }

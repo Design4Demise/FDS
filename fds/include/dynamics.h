@@ -3,9 +3,11 @@
 
 #include "input.h"
 #include "uav.h"
+#include "wind.h"
 
 // forward declaration
 class UAVClass;
+class WindClass;
 
 class DynamicsClass {
 
@@ -17,10 +19,13 @@ public:
 
     DynamicsClass(UAVClass &uav);
 
+    DynamicsClass(UAVClass &uav, WindClass &wind);
+
 // public attributes
 public:
 
     UAVClass *uavPtr;
+    WindClass *windPtr;
 
     int curr_time_step;           // current time step
     double v_air;                 // freestream air velocity
@@ -37,6 +42,7 @@ private:
 public:
 
     void update();                // update state of aircraft
+    void update_velocity();            // update wind state
 
 // private methods
 private:
