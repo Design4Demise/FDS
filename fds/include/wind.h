@@ -6,7 +6,7 @@
 
 class WindClass{
 
-	//constructors deconstructors
+//con/de-structors
 public:
 
 	WindClass();
@@ -14,18 +14,17 @@ public:
 
 	WindClass(bool read_params);
 
-	//public attributes
+//public attributes
 public:
 
-    // std::array<double, 6> windState;
+	// Consider :: When to use Eigen::Matrix vs. std::array
     Eigen::Matrix<double, 6, 1> windState;
 
-	//public methods
+//public methods
 public:
+
 	void read_parameters();
 
 };
-
-
 
 #endif

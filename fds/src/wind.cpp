@@ -25,6 +25,7 @@ void WindClass::read_parameters(){
     ifs >> json_file;
     ifs.close();
 
+    // load parameters
     windState[ew_u] = json_file["wind_parameters"]["u"];
     windState[ew_v] = json_file["wind_parameters"]["v"];
     windState[ew_w] = json_file["wind_parameters"]["w"];
