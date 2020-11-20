@@ -1,5 +1,13 @@
 #include "../include/transfer_function.h"
 
+TransferFunction::TransferFunction() {
+
+	ts = time_step;
+	num = Eigen::RowVectorXd::Zero(3);
+	den = Eigen::RowVectorXd::Zero(3);
+
+}
+
 TransferFunction::TransferFunction(Eigen::RowVectorXd numerator, Eigen::RowVectorXd denominator, double tstep) {
 
 	// check numerator indices >= denominator indices

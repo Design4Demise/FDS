@@ -11,6 +11,9 @@ class WindClass;
 
 class DynamicsClass {
 
+    // friend class
+    friend class WindClass;
+
 // con/de-structors
 public:
 

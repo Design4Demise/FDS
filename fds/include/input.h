@@ -6,6 +6,7 @@
 #include <boost/filesystem.hpp>
 #include <nlohmann/json.hpp>
 #include <cmath>
+#include <random>
 #include <vector>
 #include <array>
 #include <Eigen/Dense>
@@ -16,6 +17,8 @@ const double rho = 1.225;
 const double g0  = 9.81;
 
 // simulation parameters
+#define GUST_MODEL eDryden
+
 const double t_simulation = 30.0;
 const double time_step = 1e-3;
 
@@ -26,7 +29,10 @@ const int logging_interval = nSteps / 1000;
 const int PRECISION = 10;
 
 // enum definitions
+enum eGustModel {eDryden, eVonKarman};
+
 enum eDirection {ex, ey, ez};
+enum eVelocity {eu, ev, ew};
 enum eForce {e_fx, e_fy, e_fz};
 
 enum eEuler {e_phi, e_theta, e_psi};

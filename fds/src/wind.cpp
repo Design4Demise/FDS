@@ -4,6 +4,7 @@
 WindClass::WindClass() {
 
     windState = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+    set_gust_model();
 
 }
 
@@ -35,3 +36,40 @@ void WindClass::read_parameters(){
     windState[ew_gust_u] = json_file["wind_parameters"]["gust_w"];
 
 }
+
+void WindClass::set_gust_model() {
+
+    switch(GUST_MODEL) {
+
+        case eDryden:
+            gust_model = new DrydenGustModel(*this);
+        case eVonKarman:
+            std::exit(EXIT_FAILURE);
+
+    }
+
+}
+
+
+void WindClass::update_gust() {
+
+    gust_model->update_gust();
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

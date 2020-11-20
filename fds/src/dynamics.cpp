@@ -29,6 +29,7 @@ DynamicsClass::DynamicsClass(UAVClass &uav, WindClass &wind) {
     uavPtr->dynamicsPtr = this;
 
     windPtr = &wind;
+    windPtr->dynamicsPtr = this;
     
     curr_time_step = 0;
     v_air = uavPtr->state[es_u];

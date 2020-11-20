@@ -8,8 +8,10 @@ class TransferFunction {
 // con/de-structors
 public:
 
-	TransferFunction(Eigen::RowVectorXd numerator, Eigen::RowVectorXd denominator, double tstep);
+	TransferFunction();
 	~TransferFunction() {};
+
+	TransferFunction(Eigen::RowVectorXd numerator, Eigen::RowVectorXd denominator, double tstep);
 
 // public attributes
 public:
