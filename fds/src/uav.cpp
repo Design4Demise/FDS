@@ -10,6 +10,8 @@ UAVClass::UAVClass() {
     
     calculate_gamma();
 
+    controlState = Eigen::Matrix<double, 4, 1>::Zero();
+
 }
 
 void UAVClass::read_parameters() {
@@ -52,6 +54,10 @@ void UAVClass::read_parameters() {
     C_D_q = json_file["longitudinal_parameters"]["C_D_q"];
     C_M_q = json_file["longitudinal_parameters"]["C_M_q"];
 
+    C_L_delta_e = json_file["longitudinal_parameters"]["C_L_delta_e"];
+    C_D_delta_e = json_file["longitudinal_parameters"]["C_D_delta_e"];
+    C_M_delta_e = json_file["longitudinal_parameters"]["C_M_delta_e"];
+
     // load lateral parameters
     C_Y_0 = json_file["lateral_parameters"]["C_Y_0"];
     C_ELL_0 = json_file["lateral_parameters"]["C_ELL_0"];
@@ -68,6 +74,14 @@ void UAVClass::read_parameters() {
     C_Y_r = json_file["lateral_parameters"]["C_Y_r"];
     C_ELL_r = json_file["lateral_parameters"]["C_ELL_r"];
     C_N_r = json_file["lateral_parameters"]["C_N_r"];
+
+    C_Y_delta_a = json_file["lateral_parameters"]["C_Y_delta_a"];
+    C_ELL_delta_a = json_file["lateral_parameters"]["C_ELL_delta_a"];
+    C_N_delta_a = json_file["lateral_parameters"]["C_N_delta_a"];
+
+    C_Y_delta_r = json_file["lateral_parameters"]["C_Y_delta_r"];
+    C_ELL_delta_r = json_file["lateral_parameters"]["C_ELL_delta_r"];
+    C_N_delta_r = json_file["lateral_parameters"]["C_N_delta_r"];
 
 }
 
