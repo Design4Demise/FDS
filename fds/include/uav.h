@@ -23,25 +23,30 @@ public:
 // public attributes
 public:
 
-    Eigen::Matrix<double, 13, 1> state;    // state vector 
-    Eigen::Matrix<double, 13, 1> dstate;   // state vector derivatives
+    Eigen::Matrix<double, 13, 1> state;       // state vector 
+    Eigen::Matrix<double, 13, 1> dstate;      // state vector derivatives
 
-    double mass;                           // mass of the aircraft
-    double Jx, Jy, Jz, Jxz;                // moments of inertia
+    Eigen::Matrix<double, 4, 1> controlState; // control vector
 
-    double S_wing, AR, b, c, e;            // wing parameters
-    double sigma_m, alpha0;                // aerodynamic blending
+    double mass;                              // mass of the aircraft
+    double Jx, Jy, Jz, Jxz;                   // moments of inertia
+
+    double S_wing, AR, b, c, e;               // wing parameters
+    double sigma_m, alpha0;                   // aerodynamic blending
 
     // longitudinal parameters
     double C_L_0, C_D_0, C_M_0;
     double C_L_alpha, C_D_alpha, C_M_alpha;
     double C_L_q, C_D_q, C_M_q;
+    double C_L_delta_e, C_D_delta_e, C_M_delta_e;
 
     // lateral parameters
     double C_Y_0, C_ELL_0, C_N_0;
     double C_Y_beta, C_ELL_beta, C_N_beta;
     double C_Y_p, C_ELL_p, C_N_p;
     double C_Y_r, C_ELL_r, C_N_r;
+    double C_Y_delta_a, C_ELL_delta_a, C_N_delta_a;
+    double C_Y_delta_r, C_ELL_delta_r, C_N_delta_r;
 
 // private attributes
 private:

@@ -19,7 +19,10 @@
     "C_M_alpha": -2.74,
     "C_L_q": 7.95,
     "C_D_q": 0.0,
-    "C_M_q": -38.21
+    "C_M_q": -38.21,
+    "C_L_delta_e": 0.13,
+    "C_D_delta_e": 0.0135,
+    "C_M_delta_e": -0.99
   },
   "lateral_parameters": {
     "C_Y_0": 0.0,
@@ -33,7 +36,13 @@
     "C_N_p": 0.069,
     "C_Y_r": 0.0,
     "C_ELL_r": 0.25,
-    "C_N_r": -0.095
+    "C_N_r": -0.095,
+    "C_Y_delta_a": 0.075,
+    "C_ELL_delta_a": 0.17,
+    "C_N_delta_a": -0.011,
+    "C_Y_delta_r": 0.19,
+    "C_ELL_delta_r": 0.0024,
+    "C_N_delta_r": -0.069
   },
   "blending_parameters": {
     "M": 50.0,

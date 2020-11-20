@@ -185,8 +185,8 @@ void DynamicsClass::calc_forces_moments() {
     double cl = ((1 - sigma) * (uavPtr->C_L_0 + uavPtr->C_L_alpha * alpha) + sigma * 2.0 * std::copysign(1, alpha) * SQ(s_alpha) * c_alpha);
     double cd = uavPtr->C_D_0 + SQ(uavPtr->C_L_0 + uavPtr->C_L_alpha * alpha) / (M_PI * uavPtr->e * uavPtr->AR);
 
-    double f_lift = qbar * uavPtr->S_wing * (cl + uavPtr->C_L_q * q_ndim);
-    double f_drag = qbar * uavPtr->S_wing * (cd + uavPtr->C_D_q * q_ndim);
+    double f_lift = qbar * uavPtr->S_wing * (cl + uavPtr->C_L_q * q_ndim + uavPtr->C_L_delta_e * uavPtr->controlState[ec_delta_e]);
+    double f_drag = qbar * uavPtr->S_wing * (cd + uavPtr->C_D_q * q_ndim + uavPtr->C_D_delta_e * uavPtr->controlState[ec_delta_e]);
 
     // calculating forces
     fx = fx - c_alpha * f_drag + s_alpha * f_lift;
@@ -197,6 +197,8 @@ void DynamicsClass::calc_forces_moments() {
         + uavPtr->C_Y_beta * beta
         + uavPtr->C_Y_p * p_ndim
         + uavPtr->C_Y_r * r_ndim
+        + uavPtr->C_Y_delta_a * uavPtr->controlState[ec_delta_a]
+        + uavPtr->C_Y_delta_r * uavPtr->controlState[ec_delta_r]
     );
 
     // calculating moments
@@ -204,6 +206,7 @@ void DynamicsClass::calc_forces_moments() {
         uavPtr->C_M_0
         + uavPtr->C_M_alpha * alpha
         + uavPtr->C_M_q * q_ndim
+        + uavPtr->C_M_delta_e * uavPtr->controlState[ec_delta_e]
     );
 
     double Mx = qbar * uavPtr->S_wing * uavPtr->b * (
@@ -211,6 +214,8 @@ void DynamicsClass::calc_forces_moments() {
         + uavPtr->C_ELL_beta * beta
         + uavPtr->C_ELL_p * p_ndim
         + uavPtr->C_ELL_r * r_ndim
+        + uavPtr->C_ELL_delta_a * uavPtr->controlState[ec_delta_a]
+        + uavPtr->C_ELL_delta_r * uavPtr->controlState[ec_delta_r]
     );
 
     double Mz = qbar * uavPtr->S_wing * uavPtr->b * (
@@ -218,6 +223,8 @@ void DynamicsClass::calc_forces_moments() {
         + uavPtr->C_N_beta * beta
         + uavPtr->C_N_p * p_ndim
         + uavPtr->C_N_r * r_ndim
+        + uavPtr->C_N_delta_a * uavPtr->controlState[ec_delta_a]
+        + uavPtr->C_N_delta_r * uavPtr->controlState[ec_delta_r]
     );
 
     forces_moments = {fx, fy, fz, Mx, My, Mz};

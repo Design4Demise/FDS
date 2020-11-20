@@ -43,6 +43,7 @@ enum eQuaternion {e_e0, e_e1, e_e2, e_e3};
 // state vector enums
 enum eForceMoment {efm_fx, efm_fy, efm_fz, efm_L, efm_M, efm_N};
 enum eState {es_px, es_py, es_pz, es_u, es_v, es_w, es_e0, es_e1, es_e2, es_e3, es_p, es_q, es_r};
+enum eControl {ec_delta_e, ec_delta_a, ec_delta_r, ec_delta_t};
 
 // wind enums
 enum eWind {ew_u, ew_v, ew_w, ew_gust_u, ew_gust_v, ew_gust_w};
