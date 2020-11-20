@@ -39,7 +39,6 @@ DynamicsClass::DynamicsClass(UAVClass &uav, WindClass &wind) {
 
 }
 
-
 void DynamicsClass::update() {
     
     Eigen::Matrix<double, 13, 1> k1, k2, k3, k4;
@@ -142,7 +141,7 @@ void DynamicsClass::update_velocity() {
     Eigen::Vector3d v_adjusted(uavPtr->state(Eigen::seq(es_u, es_w)) - wind_bframe);
 
     // calculate magnitude of air velocity
-    v_air = std::sqrt(SQ(v_adjusted[ew_u]) + SQ(v_adjusted[ew_u]) + SQ(v_adjusted[ew_v]) + SQ(v_adjusted[ew_w]));
+    v_air = std::sqrt(SQ(v_adjusted[ew_u]) + SQ(v_adjusted[ew_v]) + SQ(v_adjusted[ew_w]));
     
     // calculates alpha and beta
     if (v_adjusted[ew_u] == 0.0) 

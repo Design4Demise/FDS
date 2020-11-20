@@ -3,9 +3,10 @@
 
 #include "../include/input.h"
 
+
 class TransferFunction {
 
-// con/de-structors
+// ctor/dtor
 public:
 
 	TransferFunction();
@@ -19,7 +20,7 @@ public:
 	Eigen::RowVectorXd num;
 	Eigen::RowVectorXd den;
 	double ts;
-
+	
 // private attributes
 private:
 

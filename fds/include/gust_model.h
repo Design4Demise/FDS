@@ -4,25 +4,24 @@
 #include "input.h"
 #include "wind.h"
 #include "transfer_function.h"
-#include "dynamics.h"
 
+
+// forward declarations
 class WindClass;
-class DynamicsClass;
-class TransferFunction;
 
+
+// abstract base class
 class BaseGustModel {
-
-	friend class WindClass;
-	friend class DynamicsClass;
 
 public:
 	virtual void update_gust() = 0;
 
 };
 
+
 class DrydenGustModel : public BaseGustModel {
 
-// con/de-structors
+// ctor/dtor
 public:
 
 	DrydenGustModel(WindClass &wind);
@@ -32,9 +31,6 @@ public:
 public:
 
 	Eigen::Vector3d gust;
-
-	// for now lets skip over V_a
-	double v_a = 25.0;
 
 	// scale lengths
 	const double lu = 200;
@@ -50,6 +46,7 @@ public:
 private:
 
 	WindClass *windPtr;
+	bool updated_vel;
 
 	TransferFunction h_u;
 	TransferFunction h_v;
@@ -67,13 +64,15 @@ public:
 // private methods
 private:
 
-	void setup_tf();
+	void update_tf();
 
 };
 
+
+// unimplemented thus far
 class VonKarmanGustModel : public BaseGustModel {
 
-// con/de-structors
+// ctor/dtor
 public:
 
 	VonKarmanGustModel();
@@ -86,6 +85,8 @@ public:
 private:
 
 // public methods
+public:
+
 	void update_gust();
 
 };

@@ -10,8 +10,10 @@ WindClass::WindClass() {
 
 WindClass::WindClass(bool read_params) {
 
-	if (read_params == 1)
+	if (read_params == 1) {
 		read_parameters();
+        set_gust_model();
+    }
 	else
 		WindClass();
 
@@ -42,34 +44,18 @@ void WindClass::set_gust_model() {
     switch(GUST_MODEL) {
 
         case eDryden:
-            gust_model = new DrydenGustModel(*this);
+            gustPtr = new DrydenGustModel(*this);
+            break;
         case eVonKarman:
+            std::cout << "VonKarman Gust Model :: Not Implemented." << std::endl;
             std::exit(EXIT_FAILURE);
 
     }
 
 }
 
-
 void WindClass::update_gust() {
 
-    gust_model->update_gust();
+    gustPtr->update_gust();
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

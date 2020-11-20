@@ -21,7 +21,7 @@ TransferFunction::TransferFunction(Eigen::RowVectorXd numerator, Eigen::RowVecto
 	den = denominator;
 
 	// add leading zeros to numerator
-	num.resize(den.cols());
+	num = Eigen::RowVectorXd::Zero(den.cols());
 	num.rightCols(numerator.cols()) = numerator;
 
 	// matrix size

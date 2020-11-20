@@ -5,9 +5,12 @@
 #include "gust_model.h"
 #include "dynamics.h"
 
+
+// forward declarations
 class BaseGustModel;
 class DrydenGustModel;
 class DynamicsClass;
+
 
 class WindClass{
 
@@ -15,7 +18,7 @@ class WindClass{
 	friend class DynamicsClass;
     friend class DrydenGustModel;
 
-// con/de-structors
+// ctor/dtor
 public:
 
 	WindClass();
@@ -28,7 +31,7 @@ public:
 
 	// Consider :: When to use Eigen::Matrix vs. std::array
     Eigen::Matrix<double, 6, 1> windState;
-    BaseGustModel *gust_model;
+    BaseGustModel *gustPtr;
 
 // private attributes
 private:
