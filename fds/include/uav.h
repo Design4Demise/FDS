@@ -4,15 +4,17 @@
 #include "input.h"
 #include "dynamics.h"
 
-// forward declaration
+
+// forward declarations
 class DynamicsClass;
+
 
 class UAVClass {
 
     // friend class
     friend class DynamicsClass;
 
-// con/de-structors
+// ctor/dtor
 public:
 
     UAVClass();

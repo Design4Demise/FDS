@@ -5,20 +5,24 @@
 #include "uav.h"
 #include "wind.h"
 
-// forward declaration
+
+// forward declarations
 class UAVClass;
 class WindClass;
 
+
 class DynamicsClass {
 
-// con/de-structors
+    // friend class
+    friend class WindClass;
+
+// ctor/dtor
 public:
 
     DynamicsClass();
     ~DynamicsClass() {};
 
     DynamicsClass(UAVClass &uav);
-
     DynamicsClass(UAVClass &uav, WindClass &wind);
 
 // public attributes
@@ -42,7 +46,7 @@ private:
 public:
 
     void update();                // update state of aircraft
-    void update_velocity();            // update wind state
+    void update_velocity();       // update wind state
 
 // private methods
 private:
