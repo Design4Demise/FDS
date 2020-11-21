@@ -13,8 +13,6 @@ DynamicsClass::DynamicsClass(UAVClass &uav) {
     uavPtr = &uav;
     uavPtr->dynamicsPtr = this;
 
-    WindClass *windPtr;
-
     curr_time_step = 0;
     v_air = uavPtr->state[es_u];
 
@@ -23,19 +21,10 @@ DynamicsClass::DynamicsClass(UAVClass &uav) {
 
 }
 
-DynamicsClass::DynamicsClass(UAVClass &uav, WindClass &wind) {
-
-    uavPtr = &uav;
-    uavPtr->dynamicsPtr = this;
+DynamicsClass::DynamicsClass(UAVClass &uav, WindClass &wind) : DynamicsClass(uav) {
 
     windPtr = &wind;
     windPtr->dynamicsPtr = this;
-    
-    curr_time_step = 0;
-    v_air = uavPtr->state[es_u];
-
-    alpha = 0;
-    beta = 0;
 
 }
 

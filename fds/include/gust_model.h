@@ -13,7 +13,24 @@ class WindClass;
 // abstract base class
 class BaseGustModel {
 
+// public attributes
 public:
+
+	Eigen::Vector3d gust;
+
+	// gust intensity
+	double sigma_u;
+	double sigma_v;
+	double sigma_w;
+
+// protected attributes
+protected:
+
+	WindClass *windPtr;
+
+// public methods
+public:
+
 	virtual void update_gust() = 0;
 
 };
@@ -30,22 +47,14 @@ public:
 // public attributes
 public:
 
-	Eigen::Vector3d gust;
-
 	// scale lengths
 	const double lu = 200;
 	const double lv = 200;
 	const double lw = 50;
 
-	// gust intensity
-	const double sigma_u = 1.06;
-	const double sigma_v = 1.06;
-	const double sigma_w = 0.7;
-
 // private attributes
 private:
-
-	WindClass *windPtr;
+	
 	bool updated_vel;
 
 	TransferFunction h_u;

@@ -3,19 +3,15 @@
 
 WindClass::WindClass() {
 
-    windState = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
     set_gust_model();
+    windState = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
 }
 
-WindClass::WindClass(bool read_params) {
+WindClass::WindClass(bool read_params) : WindClass() {
 
-	if (read_params == 1) {
+	if (read_params == 1)
 		read_parameters();
-        set_gust_model();
-    }
-	else
-		WindClass();
 
 }
 
@@ -33,9 +29,9 @@ void WindClass::read_parameters(){
     windState[ew_v] = json_file["wind_parameters"]["v"];
     windState[ew_w] = json_file["wind_parameters"]["w"];
 
-    windState[ew_gust_u] = json_file["wind_parameters"]["gust_u"];
-    windState[ew_gust_u] = json_file["wind_parameters"]["gust_v"];
-    windState[ew_gust_u] = json_file["wind_parameters"]["gust_w"];
+    gustPtr->sigma_u = json_file["wind_parameters"]["gust_sigma_u"];
+    gustPtr->sigma_v = json_file["wind_parameters"]["gust_sigma_v"];
+    gustPtr->sigma_w = json_file["wind_parameters"]["gust_sigma_w"];
 
 }
 
