@@ -121,29 +121,16 @@ void UAVClass::write_state() {
 
     if (!boost::filesystem::exists("Results/state.csv")) {
         output.open("Results/state.csv", std::ios::out);
-        output << "t_step, px, py, pz, u, v, w, e0, e1, e2, e3, p, q, r" << std::endl;
+        output << "t_step, time, px, py, pz, u, v, w, e0, e1, e2, e3, p, q, r" << std::endl;
     } else {
         output.open("Results/state.csv", std::ios::out | std::ios::app);
     }
 
     output << dynamicsPtr->curr_time_step << ", ";
-    
-    output << state[es_px] << ", ";
-    output << state[es_py] << ", ";
-    output << state[es_pz] << ", ";
+    output << dynamicsPtr->curr_time_step * time_step << ", ";
 
-    output << state[es_u] << ", ";
-    output << state[es_v] << ", ";
-    output << state[es_w] << ", ";
-
-    output << state[es_e0] << ", ";
-    output << state[es_e1] << ", ";
-    output << state[es_e2] << ", ";
-    output << state[es_e3] << ", ";
-
-    output << state[es_p] << ", ";
-    output << state[es_q] << ", ";
-    output << state[es_r];
+    for (double s : state)
+        output << s << ", ";
 
     output << std::endl;
 
@@ -158,29 +145,16 @@ void UAVClass::write_dstate() {
 
     if (!boost::filesystem::exists("Results/dstate.csv")) {
         output.open("Results/dstate.csv", std::ios::out);
-        output << "t_step, dpx, dpy, dpz, du, dv, dw, de0, de1, de2, de3, dp, dq, dr" << std::endl;
+        output << "t_step, time, dpx, dpy, dpz, du, dv, dw, de0, de1, de2, de3, dp, dq, dr" << std::endl;
     } else {
         output.open("Results/dstate.csv", std::ios::out | std::ios::app);
     }
 
     output << dynamicsPtr->curr_time_step << ", ";
+    output << dynamicsPtr->curr_time_step * time_step << ", ";
     
-    output << dstate[es_px] << ", ";
-    output << dstate[es_py] << ", ";
-    output << dstate[es_pz] << ", ";
-
-    output << dstate[es_u] << ", ";
-    output << dstate[es_v] << ", ";
-    output << dstate[es_w] << ", ";
-
-    output << dstate[es_e0] << ", ";
-    output << dstate[es_e1] << ", ";
-    output << dstate[es_e2] << ", ";
-    output << dstate[es_e3] << ", ";
-
-    output << dstate[es_p] << ", ";
-    output << dstate[es_q] << ", ";
-    output << dstate[es_r];
+    for (double ds : dstate)
+        output << ds << ", ";
 
     output << std::endl;
 
