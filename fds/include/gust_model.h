@@ -16,22 +16,22 @@ class BaseGustModel {
 // public attributes
 public:
 
-	Eigen::Vector3d gust;
+    Eigen::Vector3d gust;
 
-	// gust intensity
-	double sigma_u;
-	double sigma_v;
-	double sigma_w;
+    // gust intensity
+    double sigma_u;
+    double sigma_v;
+    double sigma_w;
 
 // protected attributes
 protected:
 
-	WindClass *windPtr;
+    WindClass *windPtr;
 
 // public methods
 public:
 
-	virtual void update_gust() = 0;
+    virtual void update_gust() = 0;
 
 };
 
@@ -41,39 +41,39 @@ class DrydenGustModel : public BaseGustModel {
 // ctor/dtor
 public:
 
-	DrydenGustModel(WindClass &wind);
-	~DrydenGustModel();
+    DrydenGustModel(WindClass &wind);
+    ~DrydenGustModel();
 
 // public attributes
 public:
 
-	// scale lengths
-	const double lu = 200;
-	const double lv = 200;
-	const double lw = 50;
+    // scale lengths
+    const double lu = 200;
+    const double lv = 200;
+    const double lw = 50;
 
 // private attributes
 private:
-	
-	bool updated_vel;
+    
+    bool updated_vel;
 
-	TransferFunction h_u;
-	TransferFunction h_v;
-	TransferFunction h_w;
+    TransferFunction h_u;
+    TransferFunction h_v;
+    TransferFunction h_w;
 
-	std::random_device rd{};
+    std::random_device rd{};
     std::mt19937 generator{rd()};
     std::normal_distribution<double> dist{0.0, 1.0};
 
 // public methods
 public:
 
-	void update_gust();
+    void update_gust();
 
 // private methods
 private:
 
-	void update_tf();
+    void update_tf();
 
 };
 
@@ -84,8 +84,8 @@ class VonKarmanGustModel : public BaseGustModel {
 // ctor/dtor
 public:
 
-	VonKarmanGustModel();
-	~VonKarmanGustModel();
+    VonKarmanGustModel();
+    ~VonKarmanGustModel();
 
 // public attributes
 public:
@@ -96,7 +96,7 @@ private:
 // public methods
 public:
 
-	void update_gust();
+    void update_gust();
 
 };
 

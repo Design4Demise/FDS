@@ -9,33 +9,33 @@ class TransferFunction {
 // ctor/dtor
 public:
 
-	TransferFunction();
-	~TransferFunction() {};
+    TransferFunction();
+    ~TransferFunction() {};
 
-	TransferFunction(Eigen::RowVectorXd numerator, Eigen::RowVectorXd denominator, double tstep);
+    TransferFunction(Eigen::RowVectorXd numerator, Eigen::RowVectorXd denominator, double tstep);
 
 // public attributes
 public:
 
-	Eigen::RowVectorXd num;
-	Eigen::RowVectorXd den;
-	double ts;
-	
+    Eigen::RowVectorXd num;
+    Eigen::RowVectorXd den;
+    double ts;
+    
 // private attributes
 private:
 
-	int n;
+    int n;
 
-	Eigen::VectorXd state;
+    Eigen::VectorXd state;
 
-	Eigen::MatrixXd A;
-	Eigen::VectorXd B;
-	Eigen::RowVectorXd C;
+    Eigen::MatrixXd A;
+    Eigen::VectorXd B;
+    Eigen::RowVectorXd C;
 
 // public methods
 public:
 
-	double update(double u);
+    double update(double u);
 
 };
 
