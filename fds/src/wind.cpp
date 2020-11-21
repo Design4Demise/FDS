@@ -10,14 +10,14 @@ WindClass::WindClass() {
 
 WindClass::WindClass(bool read_params) : WindClass() {
 
-	if (read_params == 1)
-		read_parameters();
+    if (read_params == 1)
+        read_parameters();
 
 }
 
 void WindClass::read_parameters(){
 
-	// read file
+    // read file
     std::ifstream ifs ("input/parameters.json");
     nlohmann::json json_file;
 

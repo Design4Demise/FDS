@@ -12,13 +12,13 @@ int main() {
 
     for (dyn.curr_time_step = 0; dyn.curr_time_step < nSteps; dyn.curr_time_step++) {
 
-    	dyn.update();
+        dyn.update();
         wind.update_gust();
 
-    	if (dyn.curr_time_step % logging_interval == 0) {
-    		uav.write_state();
-    		uav.write_dstate();
-    	}
+        if (dyn.curr_time_step % logging_interval == 0) {
+            uav.write_state();
+            uav.write_dstate();
+        }
     
     }
         
