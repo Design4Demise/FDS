@@ -52,9 +52,9 @@
     "u": 0.0,
     "v": 0.0,
     "w": 0.0,
-    "gust_u": 0.0,
-    "gust_v": 0.0,
-    "gust_w": 0.0
+    "gust_sigma_u": 1.06,
+    "gust_sigma_v": 1.07,
+    "gust_sigma_w": 0.7
   }
 }
   

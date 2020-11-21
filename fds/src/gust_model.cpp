@@ -6,7 +6,6 @@ DrydenGustModel::DrydenGustModel(WindClass &wind) {
 	windPtr->gustPtr = this;
 
 	updated_vel = 0;
-	// update_tf();
 
 }
 
@@ -47,7 +46,6 @@ void DrydenGustModel::update_tf() {
 
 void DrydenGustModel::update_gust() {
 
-	// should TF be updated each time?
 	if (!updated_vel) {
 		update_tf();
 		updated_vel = true;
