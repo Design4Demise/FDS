@@ -16,8 +16,8 @@ DynamicsClass::DynamicsClass(UAVClass &uav) {
     curr_time_step = 0;
     v_air = uavPtr->state[es_u];
 
-    alpha = 0;
-    beta = 0;
+    alpha = 0.0;
+    beta = 0.0;
 
 }
 
@@ -123,32 +123,33 @@ void DynamicsClass::update_velocity() {
     std::array<double, 4> quat = {uavPtr->state[es_e0], uavPtr->state[es_e1], uavPtr->state[es_e2], uavPtr->state[es_e3]};
     Eigen::Matrix3d rot = utils::Quaternion2Rotation(quat);
 
-    // rotate wind frame to body frame :: rot2bf(steady_state) + gust
-    Eigen::Vector3d wind_bframe = rot.transpose() * windPtr->windState(Eigen::seq(ew_u, ew_w)) + windPtr->windState(Eigen::seq(ew_gust_u, ew_gust_w));
-    
-    // accounting for wind in velocity
-    Eigen::Vector3d v_adjusted(uavPtr->state(Eigen::seq(es_u, es_w)) - wind_bframe);
+    // rotate wind to bodyframe :: rot2bf(steady_state) + gust
+    Eigen::Vector3d wind_bframe = rot.transpose() * windPtr->windState(Eigen::seq(ew_u, ew_w));
+    wind_bframe += windPtr->windState(Eigen::seq(ew_gust_u, ew_gust_w));
 
-    // calculate magnitude of air velocity
+    // calculate adjusted wind vector
+    Eigen::Vector3d v_adjusted = uavPtr->state(Eigen::seq(es_u, es_w)) - wind_bframe;
+
+    // magnitude of wind vector
     v_air = std::sqrt(SQ(v_adjusted[ew_u]) + SQ(v_adjusted[ew_v]) + SQ(v_adjusted[ew_w]));
-    
-    // calculates alpha and beta
-    if (v_adjusted[ew_u] == 0.0) 
-        alpha = std::sin(v_adjusted[ew_w]) * M_PI / 2;
+
+    // calculate alpha
+    if (v_adjusted[ew_u] == 0)
+        alpha = std::copysign(1, v_adjusted[ew_w]) * M_PI / 2.0;
     else
         alpha = std::atan(v_adjusted[ew_w] / v_adjusted[ew_u]);
 
-    // magnitude in horizontal plane
+    // calculate beta
     double tmp = std::sqrt(SQ(v_adjusted[ew_u]) + SQ(v_adjusted[ew_w]));
-    if (tmp == 0.0)
-        beta = std::sin(v_adjusted[ew_v]) * M_PI / 2;
+    if (tmp == 0)
+        beta = std::copysign(1, v_adjusted[ew_v]) * M_PI / 2.0;
     else
-        alpha = std::atan(v_adjusted[ew_v] / tmp);
+        beta = std::asin(v_adjusted[ew_v] / tmp);
 
 }
 
 void DynamicsClass::calc_forces_moments() {
-    
+
     std::array<double, 4> quat = {uavPtr->state[es_e0], uavPtr->state[es_e1], uavPtr->state[es_e2], uavPtr->state[es_e3]};
     Eigen::Matrix3d rot = utils::Quaternion2Rotation(quat);
 
@@ -168,10 +169,10 @@ void DynamicsClass::calc_forces_moments() {
     double r_ndim = uavPtr->state[es_r] * uavPtr->b / (2.0 * v_air);
 
     double bk1 = std::exp(-uavPtr->sigma_m * (alpha - uavPtr->alpha0));
-    double bk2 = std::exp(uavPtr->sigma_m * (alpha - uavPtr->alpha0));
+    double bk2 = std::exp(uavPtr->sigma_m * (alpha + uavPtr->alpha0));
     double sigma = (1 + bk1 + bk2) / ((1 + bk1) * (1 + bk2));
 
-    double cl = ((1 - sigma) * (uavPtr->C_L_0 + uavPtr->C_L_alpha * alpha) + sigma * 2.0 * std::copysign(1, alpha) * SQ(s_alpha) * c_alpha);
+    double cl = (1 - sigma) * (uavPtr->C_L_0 + uavPtr->C_L_alpha * alpha) + sigma * 2.0 * std::copysign(1, alpha) * SQ(s_alpha) * c_alpha;
     double cd = uavPtr->C_D_0 + SQ(uavPtr->C_L_0 + uavPtr->C_L_alpha * alpha) / (M_PI * uavPtr->e * uavPtr->AR);
 
     double f_lift = qbar * uavPtr->S_wing * (cl + uavPtr->C_L_q * q_ndim + uavPtr->C_L_delta_e * uavPtr->controlState[ec_delta_e]);
