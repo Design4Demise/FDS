@@ -1,6 +1,6 @@
 {
   "physical_parameters": {
-    "mass": 11,
+    "mass": 11.0,
     "Jx": 0.8244,
     "Jy": 1.135,
     "Jz": 1.759,
