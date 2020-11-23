@@ -3,16 +3,19 @@
 
 #include "input.h"
 #include "dynamics.h"
+#include "propulsion.h"
 
 
 // forward declarations
 class DynamicsClass;
+class PropulsionClass;
 
 
 class UAVClass {
 
     // friend class
     friend class DynamicsClass;
+    friend class PropulsionClass;
 
 // ctor/dtor
 public:
@@ -48,11 +51,27 @@ public:
     double C_Y_delta_a, C_ELL_delta_a, C_N_delta_a;
     double C_Y_delta_r, C_ELL_delta_r, C_N_delta_r;
 
+    // prop parameters
+    double D_prop;
+    double K_V, KQ;
+
+    double R_motor;
+    double i0;
+    double ncells, Vmax;
+
+    double C_Q0, C_Q1, C_Q2;
+    double C_T0, C_T1, C_T2;
+
+    
+
 // private attributes
 private:
 
     // dynamics pointer
     DynamicsClass *dynamicsPtr;
+
+    // propulsion pointer
+    PropulsionClass *propulsionPtr;
 
     // calculation parameters
     double gamma, gamma1, gamma2, gamma3, gamma4, gamma5, gamma6, gamma7, gamma8;

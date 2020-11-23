@@ -83,6 +83,25 @@ void UAVClass::read_parameters() {
     C_ELL_delta_r = json_file["lateral_parameters"]["C_ELL_delta_r"];
     C_N_delta_r = json_file["lateral_parameters"]["C_N_delta_r"];
 
+    // load prop parameters
+    D_prop = json_file["prop_parameters"]["D_prop"];
+    
+    K_V = json_file["prop_parameters"]["K_V"];
+    KQ = (1.0 / K_V) * 60.0 / (2.0 * M_PI);
+    
+    R_motor = json_file["prop_parameters"]["R_motor"];
+    i0 = json_file["prop_parameters"]["i0"];
+
+    ncells = json_file["prop_parameters"]["ncells"];
+    Vmax = 3.7 * ncells;
+
+    C_Q0 = json_file["prop_parameters"]["C_Q0"];
+    C_Q1 = json_file["prop_parameters"]["C_Q1"];
+    C_Q2 = json_file["prop_parameters"]["C_Q2"];
+    C_T0 = json_file["prop_parameters"]["C_T0"];
+    C_T1 = json_file["prop_parameters"]["C_T1"];
+    C_T2 = json_file["prop_parameters"]["C_T2"];
+
 }
 
 void UAVClass::read_state() {

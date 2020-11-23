@@ -33,6 +33,7 @@ void DynamicsClass::update() {
     Eigen::Matrix<double, 13, 1> k1, k2, k3, k4;
     double norm_quaternion;
 
+    uavPtr->propulsionPtr->update_motor();
     calc_forces_moments();
 
     // RK4 integration scheme
@@ -216,6 +217,9 @@ void DynamicsClass::calc_forces_moments() {
         + uavPtr->C_N_delta_a * uavPtr->controlState[ec_delta_a]
         + uavPtr->C_N_delta_r * uavPtr->controlState[ec_delta_r]
     );
+
+    fx += uavPtr->propulsionPtr->thrust;
+    Mx -= uavPtr->propulsionPtr->torque;
 
     forces_moments = {fx, fy, fz, Mx, My, Mz};
 

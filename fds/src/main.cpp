@@ -1,12 +1,15 @@
 #include "../include/uav.h"
 #include "../include/dynamics.h"
 #include "../include/wind.h"
+#include "../include/propulsion.h"
 
 int main() {
 
     std::cout << "Flight Dynamics Simulation" << std::endl;
 
     UAVClass uav;
+    PropulsionClass propulsion(uav);
+
     WindClass wind(true);
     DynamicsClass dyn(uav, wind);
 
